@@ -1,6 +1,7 @@
 from util.CustomLoggingCallback import CustomLoggingCallback
-from util.utils_model import parse_args_model, get_file, get_env
+from util.utils_model import parse_args_model, get_env
 from stable_baselines3.dqn.dqn import DQN
+from stable_baselines3.common.evaluation import evaluate_policy
 
 def parse_args_dqn():
     prs = parse_args_model("DQN Simple-Intersection")
