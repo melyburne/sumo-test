@@ -1,7 +1,6 @@
 from util.CustomLoggingCallback import CustomLoggingCallback
 from util.utils_model import parse_args_model, get_env
 from stable_baselines3.dqn.dqn import DQN
-from stable_baselines3.common.evaluation import evaluate_policy
 
 def parse_args_dqn():
     prs = parse_args_model("DQN Simple-Intersection")
@@ -36,5 +35,11 @@ def get_model():
     )
     model.learn(total_timesteps=args.total_timesteps, callback=CustomLoggingCallback())
 
+    return model
+
+def save_model():
+    model = get_model()
+    model.save("dqn_simple-intersection")
+
 if __name__ == "__main__":
-    get_model()
+    save_model()

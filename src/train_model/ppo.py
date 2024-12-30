@@ -25,6 +25,11 @@ def get_model():
         tensorboard_log=f"{output_file}/tensorboard"
     )
     model.learn(total_timesteps=args.total_timesteps, callback=CustomLoggingCallback())
+    return model
+
+def save_model():
+    model = get_model()
+    model.save("ppo_simple-intersection")
 
 if __name__ == "__main__":
-    get_model()
+    save_model()
