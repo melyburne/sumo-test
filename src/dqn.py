@@ -1,9 +1,16 @@
 from util.CustomLoggingCallback import CustomLoggingCallback
-from util.utils_model import parse_args_model, get_env
+from util.utils_model import parse_args_model, get_env, log_tensorboard_evaluate, parse_args_evaluate
 from stable_baselines3.dqn.dqn import DQN
+from stable_baselines3.common.evaluation import evaluate_policy
+import tensorflow as tf
+
+output_file = "./outputs/2way-single-intersection/dqn"
+out_csv_file = f"{output_file}/sumo"
+description_args = "DQN Simple-Intersection"
+
 
 def parse_args_dqn():
-    prs = parse_args_model("DQN Simple-Intersection")
+    prs = parse_args_model(f"{description_args} Train")
     prs.add_argument("-ls", dest="learning_starts", type=int, default=0, required=False, help="Number of steps before learning starts in the DQN model.")
     prs.add_argument("-tf", dest="train_freq", type=int, default=1, required=False, help="Training frequency of the DQN model.")
     prs.add_argument("-tui", dest="target_update_interval", type=int, default=500, required=False, help="Interval for updating the target network in the DQN model.")
@@ -14,9 +21,6 @@ def parse_args_dqn():
 
 
 def get_model():
-    output_file = "./outputs/2way-single-intersection/dqn"
-    out_csv_file = f"{output_file}/sumo"
-
     args = parse_args_dqn()
 
     env = get_env(out_csv_file, args)
@@ -37,9 +41,22 @@ def get_model():
 
     return model
 
-def save_model():
+def save_model(name = "models/dqn_simple-intersection"):
     model = get_model()
-    model.save("dqn_simple-intersection")
+    model.save(name)
+
+def evaluate_model(name = "models/dqn_simple-intersection"):
+    args = parse_args_evaluate(f"{description_args} Evaluate").parse_args()
+    env = get_env(out_csv_file, args)
+    model = DQN.load(name, env=env)
+    episode_rewards, episode_lengths = evaluate_policy(
+        model, 
+        model.get_env(), 
+        n_eval_episodes=args.n_eval_episodes,
+        return_episode_rewards=True
+    )
+    log_tensorboard_evaluate(f"{output_file}/tensorboard", episode_rewards, episode_lengths)
 
 if __name__ == "__main__":
     save_model()
+    evaluate_model()

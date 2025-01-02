@@ -33,7 +33,7 @@ class CustomLoggingCallback(BaseCallback):
         if self.writer:
             if self.num_timesteps % 100 == 0:
                 with self.writer.as_default():
-                    tf.summary.scalar("Reward", self.locals['rewards'][0], step=self.num_timesteps)
+                    tf.summary.scalar("rollout/reward", self.locals['rewards'][0], step=self.num_timesteps)
                     self.logger.dump(self.num_timesteps)
                     self.writer.flush()
         return True
