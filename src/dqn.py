@@ -1,5 +1,4 @@
-from util.CustomLoggingCallback import CustomLoggingCallback
-from util.utils_model import parse_args_model, get_env, log_tensorboard_evaluate, parse_args_evaluate
+from util.utils_model import parse_args_model, get_env, log_tensorboard_evaluate, parse_args_evaluate, setup_tensorboard_log_dir
 from stable_baselines3.dqn.dqn import DQN
 from stable_baselines3.common.evaluation import evaluate_policy
 import tensorflow as tf
@@ -37,7 +36,7 @@ def get_model():
         verbose=1,
         tensorboard_log=f"{output_file}/tensorboard",
     )
-    model.learn(total_timesteps=args.total_timesteps, callback=CustomLoggingCallback())
+    model.learn(total_timesteps=args.total_timesteps)
 
     return model
 
@@ -55,7 +54,8 @@ def evaluate_model(name = "models/dqn_simple-intersection"):
         n_eval_episodes=args.n_eval_episodes,
         return_episode_rewards=True
     )
-    log_tensorboard_evaluate(f"{output_file}/tensorboard", episode_rewards, episode_lengths)
+    log_dir = setup_tensorboard_log_dir(f"{output_file}/tensorboard", "dqn_evaluate")
+    log_tensorboard_evaluate(f"{log_dir}", episode_rewards)
 
 if __name__ == "__main__":
     save_model()
