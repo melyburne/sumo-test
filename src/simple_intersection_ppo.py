@@ -7,11 +7,14 @@ from stable_baselines3 import PPO
 from stable_baselines3.common.evaluation import evaluate_policy
 
 import tensorflow as tf
+import os
 
 output_file = "./outputs/2way-single-intersection/ppo"
 out_csv_file = f"{output_file}/sumo"
 description_args = "PPO Simple-Intersection"
 model_dir = "models/ppo_simple-intersection"
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 
 def train_model():

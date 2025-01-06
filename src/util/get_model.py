@@ -23,7 +23,7 @@ def get_dqn_model(env, args, output_file):
         gamma=args.gamma,
         batch_size=args.batch_size,
         learning_starts=args.learning_starts,
-        train_freq=args.train_freq,
+        train_freq=(args.train_freq, "step"),
         target_update_interval=args.target_update_interval,
         exploration_initial_eps=args.exploration_initial_eps,
         exploration_final_eps=args.exploration_final_eps,

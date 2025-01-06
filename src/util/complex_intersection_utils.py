@@ -1,7 +1,6 @@
 from .file_utils import get_file
 
 from stable_baselines3.common.vec_env import VecMonitor
-from stable_baselines3.common.vec_env import DummyVecEnv
 
 import supersuit as ss
 import sumo_rl
@@ -26,7 +25,7 @@ def get_env(out_csv_file, args):
     env.unwrapped.render_mode = 'human'
 
     env = ss.pettingzoo_env_to_vec_env_v1(env)
-    env = ss.concat_vec_envs_v1(env, 2, num_cpus=0, base_class="stable_baselines3")
+    env = ss.concat_vec_envs_v1(env, 1, num_cpus=1, base_class="stable_baselines3")
     env = VecMonitor(env)
 
     return env

@@ -6,6 +6,9 @@ from util.get_model import get_dqn_model
 from stable_baselines3.dqn.dqn import DQN
 from stable_baselines3.common.evaluation import evaluate_policy
 
+import gym
+import os
+
 import tensorflow as tf
 
 output_file = "./outputs/complex-intersection/dqn"
@@ -13,6 +16,7 @@ out_csv_file = f"{output_file}/sumo"
 description_args = "DQN Complex-Intersection"
 model_dir = "models/dqn_complex-intersection"
 
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 def train_model():
     args = parse_args_dqn(parse_args_model(parse_args(f"{description_args} Train"))).parse_args()

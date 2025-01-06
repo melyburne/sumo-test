@@ -9,10 +9,14 @@ from stable_baselines3.common.evaluation import evaluate_policy
 import sumo_rl
 import tensorflow as tf
 
+import os
+
 output_file = "./outputs/complex-intersection/ppo"
 out_csv_file = f"{output_file}/sumo"
 description_args = "PPO Complex Intersection"
 model_dir = "models/ppo_complex-intersection"
+
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"  # Disable GPU
 
 
 def train_model():
