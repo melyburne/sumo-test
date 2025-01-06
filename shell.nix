@@ -47,7 +47,7 @@ in pkgs.mkShell {
     if [ ! -d .venv ]; then
       virtualenv .venv
       . .venv/bin/activate
-      pip install stable-baselines3 sumo-rl tensorflow tensorboard gym
+      pip install stable-baselines3 sumo-rl tensorflow tensorboard gym supersuit
     else
       . .venv/bin/activate
     fi
