@@ -1,3 +1,5 @@
+from .parse_args import parse_args_evaluate, parse_args
+
 import os
 import tensorflow as tf
 import numpy as np
@@ -36,3 +38,7 @@ def log_tensorboard_evaluate(output_file, episode_rewards):
         tf.summary.scalar("evaluate/std_reward", std_reward, step=1)
         writer.flush()
         writer.close()
+
+
+def get_evaluate_args(description_args):
+    return parse_args_evaluate(parse_args(f"{description_args} Evaluate")).parse_args()
