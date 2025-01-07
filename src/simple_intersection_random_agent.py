@@ -64,7 +64,8 @@ def train_model():
 def evaluate_model(ep_length = 200):
     log_dir = setup_tensorboard_log_dir(f"{output_file}/tensorboard", "random_evaluate")
     args = parse_args_evaluate(parse_args(f"{description_args} Evaluate")).parse_args()
-    episode_rewards = run_model(args, args.n_eval_episodes * ep_length, ep_length, True)
+    env = get_env(out_csv_file, args)
+    episode_rewards = run_model(env, args, args.n_eval_episodes * ep_length, ep_length)
     log_tensorboard_evaluate(log_dir, episode_rewards)
     return 
 
