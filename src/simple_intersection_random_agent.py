@@ -57,7 +57,6 @@ def train_model():
     args = parse_args(f"{description_args} Train").parse_args()
     env = get_env(out_csv_file, args)
     log_dir = setup_tensorboard_log_dir(f"{output_file}/tensorboard", "random")
-    args = parse_args().parse_args()
     episode_rewards = run_model(env, args, args.total_timesteps, args.seconds)
     log_tensorboard_train(log_dir, episode_rewards, args.seconds)
 
