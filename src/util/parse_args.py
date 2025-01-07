@@ -26,7 +26,7 @@ def parse_args_evaluate(prs):
     return prs
 
 def parse_args_ppo(prs):
-    prs.add_argument("-ns", dest="n_steps", type=int, default=2048, required=False, help="The number of steps to run for each environment per update in the PPO model.")
+    prs.add_argument("-ns", dest="n_steps", type=int, default=256, required=False, help="The number of steps to run for each environment per update in the PPO model.")
     prs.add_argument("-gl", dest="gae_lambda", type=float, default=0.95, required=False, help="Factor for trade-off of bias vs variance for Generalized Advantage Estimator in the PPO model.")
     prs.add_argument("-cr", dest="clip_range", type=float, default=0.95, required=False, help="Clipping parameter in the PPO model.")
     return prs
