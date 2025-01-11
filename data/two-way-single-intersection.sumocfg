@@ -1,7 +1,7 @@
 <configuration>
     <input>
         <net-file value="two-way-single-intersection.net.xml"/>
-        <route-files value="two-way-single-intersection.rou.xml"/>
+        <route-files value="two-way-single-intersection-gen.rou.xml"/>
     </input>
     <time>
         <begin value="0"/>
