@@ -7,7 +7,7 @@ The requirements of the project can be found in requirements.txt. The project wa
 ## SUMO
 
 SUMO must also be installed for the project. Further information can be found in [the official documentation](https://sumo.dlr.de/docs/Installing/index.html). In order for the project to find sumo, SUMO_HOME must be set to the folder in which sumo is located.
-Under Linux, cmd would be as follows 
+Under Linux, cmd could be as follows 
 ```bash
 export SUMO_HOME="usr/share/sumo”
 ``` 
