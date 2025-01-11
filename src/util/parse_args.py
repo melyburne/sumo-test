@@ -13,7 +13,6 @@ def parse_args(description):
     prs.add_argument("-mingreen", dest="min_green", type=int, default=10, required=False, help="Minimum green time.\n")
     prs.add_argument("-maxgreen", dest="max_green", type=int, default=30, required=False, help="Maximum green time.\n")
     prs.add_argument("-gui", action="store_true", default=False, help="Run with visualization on SUMO.\n")
-    prs.add_argument("-s", dest="seconds", type=int, default=1000, required=False, help="Number of simulation seconds.\n")
 
     # Variable for agent training
     prs.add_argument("-tt", dest="total_timesteps", type=int, default=100000, required=False, help="Total timesteps for the model learning.")
@@ -26,9 +25,19 @@ def parse_args_model(prs):
 
         :param prs: ArgumentParser, which requires the additional arguments 
     """
+    prs.add_argument("-s", dest="seconds", type=int, default=1000, required=False, help="Number of simulation seconds.\n")
     prs.add_argument("-lr", dest="learning_rate", type=float, default=0.0003, required=False, help="Learning rate of the model.")
     prs.add_argument("-g", dest="gamma", type=float, default=0.99, required=False, help="Discount factor of the model.")
     prs.add_argument("-bs", dest="batch_size", type=int, default=64, required=False, help="Minibatch size for each gradient update of the model.")
+    return prs
+
+def parse_args_random(prs):
+    """
+        Returns the ArgumentParser instance with additional arguments required for an random agent.
+
+        :param prs: ArgumentParser, which requires the additional arguments 
+    """
+    prs.add_argument("-s", dest="seconds", type=int, default=1000, required=False, help="Number of simulation seconds.\n")
     return prs
 
 def parse_args_evaluate(prs):
@@ -37,6 +46,7 @@ def parse_args_evaluate(prs):
 
         :param prs: ArgumentParser, which requires the additional arguments 
     """
+    prs.add_argument("-s", dest="seconds", type=int, default=200, required=False, help="Number of simulation seconds.\n")
     prs.add_argument("-nee", dest="n_eval_episodes", type=int, default=10, required=False, help="Number of episode to evaluate the agent")
     return prs
 

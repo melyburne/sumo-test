@@ -8,7 +8,7 @@ def get_env(out_csv_file, args):
         :param args: ArgumentParser instance with the required arguments.
     """
     net_file = get_file('two-way-single-intersection.net.xml')
-    route_file = get_file('two-way-single-intersection-gen.rou.xml')
+    route_file = get_file('single-intersection-vhvh.rou.xml')
     return SumoEnvironment(
         net_file=net_file,
         route_file=route_file,

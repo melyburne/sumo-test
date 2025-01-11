@@ -81,7 +81,6 @@ class PPOEnvironment(ABC):
             The model used is defined in the constructor parameter model_dir.
         """
         args = get_evaluate_args(self.description_args)
-        args.seconds = 200
         env = self.get_env(args)
         model = PPO.load(self.model_dir, env=env)
         episode_rewards, episode_lengths = evaluate_policy(

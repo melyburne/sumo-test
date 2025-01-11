@@ -48,7 +48,7 @@ class SimpleIntersectionRandomEnvironment(RandomEnvironment):
                 done = False  # Reset done flag
 
             # Stop the loop if the total timesteps have been reached
-            if step_count == total_timesteps:
+            if step_count >= total_timesteps:
                 done = True
 
         env.close()
