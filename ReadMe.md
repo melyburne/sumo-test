@@ -43,6 +43,6 @@ The scripts execute following model/agent in the following environment:
 Normally, the output files are located in the output folder. A sample output can be found in the outputs_example folder, which contains the SUMO environment outputs in csv format and the tensorboard output files, and in the model_example folder, which contains the saved PPO and DQN models for each environment.
 To see tensorbaord, execute cmd 
 ```bash
-tensorboard --logdir=”./outputs_example”
+tensorboard --logdir="./outputs_example"
 ```
 
