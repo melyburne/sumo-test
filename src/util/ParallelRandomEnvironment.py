@@ -4,14 +4,6 @@ from .RandomActionModel import RandomActionModel
 class ParallelRandomEnvironment(RandomEnvironment):
 
     def __init__(self, output_file, out_csv_file, description_args):
-        """
-        Initialize the environment with specific parameters.
-        
-        :param output_file: Path where output files will be saved
-        :param out_csv_file: Path to the CSV file used for the environment
-        :param description_args: Description of the environment
-        :param model_dir: Directory to save the model
-        """
         self.output_file = output_file
         self.out_csv_file = out_csv_file
         self.description_args = description_args

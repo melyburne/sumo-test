@@ -2,6 +2,13 @@ from stable_baselines3 import PPO
 from stable_baselines3 import DQN
 
 def get_ppo_model(env, args, output_file):
+    """
+        Returns a PPO model.
+
+        :param env: Gym environment for the agent to interact with.
+        :param args: ArgumentParser instance with the required arguments.
+        :param output_file: Path where output files of tensorboard will be saved
+    """
     return PPO(
         env=env,
         policy="MlpPolicy",
@@ -16,6 +23,13 @@ def get_ppo_model(env, args, output_file):
     )
 
 def get_dqn_model(env, args, output_file):
+    """
+        Returns a DQN model.
+
+        :param env: Gym environment for the agent to interact with.
+        :param args: ArgumentParser instance with the required arguments.
+        :param output_file: Path where output files of tensorboard will be saved
+    """
     return DQN(
         env=env,
         policy="MlpPolicy",

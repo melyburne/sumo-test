@@ -1,0 +1,7 @@
+numpy
+stable-baselines3 
+sumo-rl 
+tensorflow 
+tensorboard 
+gym 
+supersuit

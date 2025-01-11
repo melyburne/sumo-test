@@ -1,8 +1,12 @@
 from sumo_rl import SumoEnvironment
 from .file_utils import get_file
 
-
 def get_env(out_csv_file, args):
+    """
+        Return the environment of a simple intersection for the given arguments.
+
+        :param args: ArgumentParser instance with the required arguments.
+    """
     net_file = get_file('two-way-single-intersection.net.xml')
     route_file = get_file('two-way-single-intersection-gen.rou.xml')
     return SumoEnvironment(

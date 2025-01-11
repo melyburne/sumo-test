@@ -14,11 +14,11 @@ class DQNEnvironment(ABC):
 
     def __init__(self, output_file, out_csv_file, description_args, model_dir):
         """
-        Initialize the environment with specific parameters.
+        Initialize the Sumo environment and let the DQN model train, save and evaluate.
         
-        :param output_file: Path where output files will be saved
-        :param out_csv_file: Path to the CSV file used for the environment
-        :param description_args: Description of the environment
+        :param output_file: Path where output files of tensorboard will be saved
+        :param out_csv_file: Path where the output CSV file of SUMO will be saved
+        :param description_args: Description of the ArgumentParser
         :param model_dir: Directory to save the model
         """
         self.output_file = output_file
@@ -29,22 +29,40 @@ class DQNEnvironment(ABC):
     
     @abstractmethod
     def get_env(self, args):
-        """Return the environment for the given arguments."""
+        """
+            Return the environment for the given arguments.
+            The class uses the returned environment to execute the agent.
+
+            :param args: ArgumentParser instance with the required arguments.
+        """
         pass
 
 
     def get_dqn_args(self):
+        """
+            Returns the ArgumentParser instance with the arguments required for the agent to work.
+        """
         return parse_args_dqn(parse_args_model(parse_args(f"{self.description_args} Train"))).parse_args()
 
 
     def train_model(self, env, args):
-        """Train the model."""
+        """
+            Train the model.
+
+            :param env: Gym environment for the agent to interact with.
+            :param args: ArgumentParser instance with the required arguments.
+        """
         model = get_dqn_model(env, args, self.output_file)
         model.learn(total_timesteps=args.total_timesteps)
 
         return model
 
     def save_model(self):
+        """
+            Train and save a model and log in tensorboard.
+            Environment defined in method get_env.
+            The constructor parameter model_dir determines the storage location of the model.
+        """
         args = self.get_dqn_args()
         env = self.get_env(args)
         model = self.train_model(env, args)
@@ -52,12 +70,18 @@ class DQNEnvironment(ABC):
 
 
     def evaluate_model(self):
+        """
+            Evaluate a model and log in tensorboard.
+            Environment defined in method get_env.
+            The model used is defined in the constructor parameter model_dir.
+        """
         args = get_evaluate_args(self.description_args)
+        args.seconds = 200
         env = self.get_env(args)
         model = DQN.load(self.model_dir, env=env)
         episode_rewards, episode_lengths = evaluate_policy(
             model, 
-            model.get_env(), 
+            env, 
             n_eval_episodes=args.n_eval_episodes,
             return_episode_rewards=True
         )

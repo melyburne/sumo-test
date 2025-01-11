@@ -6,7 +6,7 @@ model_dir = "models/ppo_heilbronn"
 class HeilbronnPPOEnvironment(PPOEnvironment):
     
     def __init__(self, model_dir = model_dir):
-        output_file = "./outputs/heilbronn/ppoW"
+        output_file = "./outputs/heilbronn/ppo"
         out_csv_file = f"{output_file}/sumo"
         description_args = "PPO Heilbronn"
         super().__init__(output_file, out_csv_file, description_args, model_dir)

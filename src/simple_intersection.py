@@ -3,6 +3,11 @@ from SimpleIntersectionRandomEnvironment import SimpleIntersectionRandomEnvironm
 from SimpleIntersectionPPOEnvironment import SimpleIntersectionPPOEnvironment 
 
 def main():
+    """
+    Train, save and evaluate DQN and PPO model and log in tensorboard.
+    Random agent for baseline.
+    In a 2way simple intersection environment.
+    """
     SimpleIntersectionDQNEnvironment().save_model()
     SimpleIntersectionPPOEnvironment().save_model()
     SimpleIntersectionRandomEnvironment().train_model()

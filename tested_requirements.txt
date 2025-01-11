@@ -1,0 +1,7 @@
+gym==0.26.2
+numpy==1.26.4
+stable_baselines3==2.4.1
+sumo-rl==1.4.5
+SuperSuit==3.9.3
+tensorboard==2.18.0
+tensorflow==2.18.0

@@ -11,12 +11,11 @@ class RandomEnvironment(ABC):
 
     def __init__(self, output_file, out_csv_file, description_args):
         """
-        Initialize the environment with specific parameters.
+        Initialize the Sumo environment and let the agent perform a random action with it.
         
-        :param output_file: Path where output files will be saved
-        :param out_csv_file: Path to the CSV file used for the environment
-        :param description_args: Description of the environment
-        :param model_dir: Directory to save the model
+        :param output_file: Path where output files of tensorboard will be saved
+        :param out_csv_file: Path where the output CSV file of SUMO will be saved
+        :param description_args: Description of the ArgumentParser
         """
         self.output_file = output_file
         self.out_csv_file = out_csv_file
@@ -24,18 +23,37 @@ class RandomEnvironment(ABC):
 
     @abstractmethod
     def get_env(self, args):
-        """Return the environment for the given arguments."""
+        """
+            Return the environment for the given arguments.
+            The class uses the returned environment to execute the agent.
+
+            :param args: ArgumentParser instance with the required arguments.
+        """
         pass
 
     def get_random_args(self):
+        """
+            Returns the ArgumentParser instance with the arguments required for the agent to work.
+        """
         return parse_args(f"{self.description_args} Train").parse_args()
 
     @abstractmethod
     def run_model(self, env, args, total_timesteps, seconds):
+        """
+            Defines how to agent interact with the environment.
+
+            :param env: SumoEnvironment for the agent to interact with.
+            :param args: ArgumentParser instance with the required arguments.
+            :param total_timesteps: The total number of samples (env steps) to train on
+            :param seconds: Number of simulated seconds on SUMO. The duration in seconds of the simulation.
+        """
         pass
 
     def train_model(self):
-        """Train the model."""
+        """
+            Agent interact with the environment and the results will be logged as output. 
+            This function is used as a baseline to compare models while training.
+        """
         args = self.get_random_args()
         env = self.get_env(args)
         log_dir = setup_tensorboard_log_dir(f"{self.output_file}/tensorboard", "random")
@@ -43,6 +61,10 @@ class RandomEnvironment(ABC):
         log_tensorboard_train(log_dir, episode_rewards, args.seconds)
 
     def evaluate_model(self, ep_length = 200):
+        """
+            Agent interact with the environment and the results will be logged as output. 
+            This function is used as a baseline to compare models while evaluation.
+        """
         args = get_evaluate_args(self.description_args)
         env = self.get_env(args)
         episode_rewards = self.run_model(env, args, args.n_eval_episodes * ep_length, ep_length)
