@@ -1,5 +1,5 @@
-from .evaluate_model import log_tensorboard_evaluate, setup_tensorboard_log_dir, get_evaluate_args
-from .parse_args import parse_args_model, parse_args, parse_args_dqn
+from .evaluate_model import log_tensorboard_evaluate, setup_tensorboard_log_dir, simple_get_reward
+from .parse_args import parse_args
 from .get_model import get_dqn_model
 
 from stable_baselines3.dqn.dqn import DQN
@@ -38,13 +38,6 @@ class DQNEnvironment(ABC):
         pass
 
 
-    def get_dqn_args(self):
-        """
-            Returns the ArgumentParser instance with the arguments required for the agent to work.
-        """
-        return parse_args_dqn(parse_args_model(parse_args(f"{self.description_args} Train"))).parse_args()
-
-
     def train_model(self, env, args):
         """
             Train the model.
@@ -63,11 +56,10 @@ class DQNEnvironment(ABC):
             Environment defined in method get_env.
             The constructor parameter model_dir determines the storage location of the model.
         """
-        args = self.get_dqn_args()
+        args = parse_args(f"{self.description_args} Train")
         env = self.get_env(args)
         model = self.train_model(env, args)
         model.save(self.model_dir)
-
 
     def evaluate_model(self):
         """
@@ -75,14 +67,18 @@ class DQNEnvironment(ABC):
             Environment defined in method get_env.
             The model used is defined in the constructor parameter model_dir.
         """
-        args = get_evaluate_args(self.description_args)
+        args = parse_args(f"{self.description_args} Evaluate")
         env = self.get_env(args)
         model = DQN.load(self.model_dir, env=env)
-        episode_rewards, episode_lengths = evaluate_policy(
-            model, 
-            env, 
-            n_eval_episodes=args.n_eval_episodes,
-            return_episode_rewards=True
-        )
+        episode_rewards = self.evaluate_model_get_reward(model, args)
         log_dir = setup_tensorboard_log_dir(f"{self.output_file}/tensorboard", "dqn_evaluate")
         log_tensorboard_evaluate(f"{log_dir}", episode_rewards)
+
+    def evaluate_model_get_reward(self, model, args):
+        """
+            Evaluate a model. Get array of rewards of a model returns it. Rewards are represented as float.
+            
+            :param model: Model to evaluate.
+            :param args: ArgumentParser instance with the required arguments.
+        """
+        return simple_get_reward(model, args)

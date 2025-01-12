@@ -38,9 +38,12 @@ The scripts execute following model/agent in the following environment:
 - The documentation of the scripts can be found in docs.md. 
 - Which args can be used with the scripts can be found in docs_args.md.
 
+Note: 
+- An important argument is -gui, which allows the user to view Sumo's user interface to see the result.
+
 # Output
 
-Normally, the output files are located in the output folder. A sample output can be found in the outputs_example folder, which contains the SUMO environment outputs in csv format and the tensorboard output files, and in the model_example folder, which contains the saved PPO and DQN models for each environment.
+Normally, the output files are located in the output folder. A sample output can be found in the outputs_example folder, which contains the SUMO environment outputs in csv format and the tensorboard output files, and in the model_example folder, which contains the saved PPO and DQN models for each environment. The folder outputs_example_s10000 is also an example output but the simulation second is set to 10000 instead of the default value 1000.
 To see tensorbaord, execute cmd 
 ```bash
 tensorboard --logdir="./outputs_example"

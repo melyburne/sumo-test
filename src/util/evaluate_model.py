@@ -1,4 +1,4 @@
-from .parse_args import parse_args_evaluate, parse_args
+from stable_baselines3.common.evaluation import evaluate_policy
 
 import os
 import tensorflow as tf
@@ -6,6 +6,12 @@ import numpy as np
 
 
 def setup_tensorboard_log_dir(base_log_dir, log_dir_add):
+    """
+        Create a new folder for Tensorbaord logs. Must be unique through addition of numbers.
+        
+        :param base_log_dir: The base of the log directory.
+        :param log_dir_add: What to add to the base directory of the log.
+    """
     # Set up TensorBoard writer
     if not os.path.exists(base_log_dir):
         os.makedirs(base_log_dir)
@@ -23,6 +29,12 @@ def setup_tensorboard_log_dir(base_log_dir, log_dir_add):
 
 
 def log_tensorboard_evaluate(output_file, episode_rewards):
+    """
+        Log episode rewards in output files. 
+        
+        :param output_file: Path where output files of tensorboard will be saved
+        :param episode_rewards: Get array of rewards of a model returns it. Rewards are represented as float.
+    """
     writer = tf.summary.create_file_writer(output_file)
 
     with writer.as_default():
@@ -39,6 +51,42 @@ def log_tensorboard_evaluate(output_file, episode_rewards):
         writer.flush()
         writer.close()
 
+def simple_get_reward(model, args):
+    """
+        Evaluate a model. Get rewards of a model returns it
+        
+        :param model: Model to evaluate.
+        :param args: ArgumentParser instance with the required arguments.
+    """
+    episode_rewards, episode_lengths = evaluate_policy(
+        model, 
+        model.get_env(), 
+        n_eval_episodes=args.n_eval_episodes,
+        return_episode_rewards=True
+    )
 
-def get_evaluate_args(description_args):
-    return parse_args_evaluate(parse_args(f"{description_args} Evaluate")).parse_args()
+    return episode_rewards
+
+
+def parallel_get_reward(model, args):
+    """
+        Evaluate a model. Get rewards of a model returns it.
+        Workaround because bug doesn't allow the environment to be reset after each episode.
+        
+        :param model: Model to evaluate.
+        :param args: ArgumentParser instance with the required arguments.
+    """
+    episode_rewards = []
+    total_reward = 0
+    current_episode = 0
+
+    while current_episode < args.n_eval_episodes:
+        rewards, lengths = evaluate_policy(
+            model, 
+            model.get_env(), 
+            n_eval_episodes=1,
+        )
+        episode_rewards.append(rewards)
+        current_episode+=1
+
+    return episode_rewards

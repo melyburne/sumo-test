@@ -18,11 +18,14 @@
 * [SimpleIntersectionDQNEnvironment](#SimpleIntersectionDQNEnvironment)
 * [util](#util)
 * [util.evaluate\_model](#util.evaluate_model)
+  * [setup\_tensorboard\_log\_dir](#util.evaluate_model.setup_tensorboard_log_dir)
+  * [log\_tensorboard\_evaluate](#util.evaluate_model.log_tensorboard_evaluate)
+  * [simple\_get\_reward](#util.evaluate_model.simple_get_reward)
+  * [parallel\_get\_reward](#util.evaluate_model.parallel_get_reward)
 * [util.RandomEnvironment](#util.RandomEnvironment)
   * [RandomEnvironment](#util.RandomEnvironment.RandomEnvironment)
     * [\_\_init\_\_](#util.RandomEnvironment.RandomEnvironment.__init__)
     * [get\_env](#util.RandomEnvironment.RandomEnvironment.get_env)
-    * [get\_random\_args](#util.RandomEnvironment.RandomEnvironment.get_random_args)
     * [run\_model](#util.RandomEnvironment.RandomEnvironment.run_model)
     * [train\_model](#util.RandomEnvironment.RandomEnvironment.train_model)
     * [evaluate\_model](#util.RandomEnvironment.RandomEnvironment.evaluate_model)
@@ -36,19 +39,19 @@
   * [DQNEnvironment](#util.DQNEnvironment.DQNEnvironment)
     * [\_\_init\_\_](#util.DQNEnvironment.DQNEnvironment.__init__)
     * [get\_env](#util.DQNEnvironment.DQNEnvironment.get_env)
-    * [get\_dqn\_args](#util.DQNEnvironment.DQNEnvironment.get_dqn_args)
     * [train\_model](#util.DQNEnvironment.DQNEnvironment.train_model)
     * [save\_model](#util.DQNEnvironment.DQNEnvironment.save_model)
     * [evaluate\_model](#util.DQNEnvironment.DQNEnvironment.evaluate_model)
+    * [evaluate\_model\_get\_reward](#util.DQNEnvironment.DQNEnvironment.evaluate_model_get_reward)
 * [util.file\_utils](#util.file_utils)
 * [util.PPOEnvironment](#util.PPOEnvironment)
   * [PPOEnvironment](#util.PPOEnvironment.PPOEnvironment)
     * [\_\_init\_\_](#util.PPOEnvironment.PPOEnvironment.__init__)
     * [get\_env](#util.PPOEnvironment.PPOEnvironment.get_env)
-    * [get\_ppo\_args](#util.PPOEnvironment.PPOEnvironment.get_ppo_args)
     * [train\_model](#util.PPOEnvironment.PPOEnvironment.train_model)
     * [save\_model](#util.PPOEnvironment.PPOEnvironment.save_model)
     * [evaluate\_model](#util.PPOEnvironment.PPOEnvironment.evaluate_model)
+    * [evaluate\_model\_get\_reward](#util.PPOEnvironment.PPOEnvironment.evaluate_model_get_reward)
 * [util.RandomActionModel](#util.RandomActionModel)
   * [RandomActionModel](#util.RandomActionModel.RandomActionModel)
     * [predict](#util.RandomActionModel.RandomActionModel.predict)
@@ -58,10 +61,6 @@
   * [log\_tensorboard\_train](#util.random_agent.log_tensorboard_train)
 * [util.parse\_args](#util.parse_args)
   * [parse\_args](#util.parse_args.parse_args)
-  * [parse\_args\_model](#util.parse_args.parse_args_model)
-  * [parse\_args\_evaluate](#util.parse_args.parse_args_evaluate)
-  * [parse\_args\_ppo](#util.parse_args.parse_args_ppo)
-  * [parse\_args\_dqn](#util.parse_args.parse_args_dqn)
 * [util.complex\_intersection\_utils](#util.complex_intersection_utils)
   * [process\_env](#util.complex_intersection_utils.process_env)
   * [normalize\_env](#util.complex_intersection_utils.normalize_env)
@@ -183,6 +182,68 @@ See [util.DQNEnvironment](#util.DQNEnvironment).
 
 # util.evaluate\_model
 
+<a id="util.evaluate_model.setup_tensorboard_log_dir"></a>
+
+#### setup\_tensorboard\_log\_dir
+
+```python
+def setup_tensorboard_log_dir(base_log_dir, log_dir_add)
+```
+
+Create a new folder for Tensorbaord logs. Must be unique through addition of numbers.
+
+**Arguments**:
+
+- `base_log_dir`: The base of the log directory.
+- `log_dir_add`: What to add to the base directory of the log.
+
+<a id="util.evaluate_model.log_tensorboard_evaluate"></a>
+
+#### log\_tensorboard\_evaluate
+
+```python
+def log_tensorboard_evaluate(output_file, episode_rewards)
+```
+
+Log episode rewards in output files. 
+
+**Arguments**:
+
+- `output_file`: Path where output files of tensorboard will be saved
+- `episode_rewards`: Get array of rewards of a model returns it. Rewards are represented as float.
+
+<a id="util.evaluate_model.simple_get_reward"></a>
+
+#### simple\_get\_reward
+
+```python
+def simple_get_reward(model, args)
+```
+
+Evaluate a model. Get rewards of a model returns it
+
+**Arguments**:
+
+- `model`: Model to evaluate.
+- `args`: ArgumentParser instance with the required arguments.
+
+<a id="util.evaluate_model.parallel_get_reward"></a>
+
+#### parallel\_get\_reward
+
+```python
+def parallel_get_reward(model, args)
+```
+
+Evaluate a model. Get rewards of a model returns it.
+
+Workaround because bug doesn't allow the environment to be reset after each episode.
+
+**Arguments**:
+
+- `model`: Model to evaluate.
+- `args`: ArgumentParser instance with the required arguments.
+
 <a id="util.RandomEnvironment"></a>
 
 # util.RandomEnvironment
@@ -228,16 +289,6 @@ The class uses the returned environment to execute the agent.
 
 - `args`: ArgumentParser instance with the required arguments.
 
-<a id="util.RandomEnvironment.RandomEnvironment.get_random_args"></a>
-
-#### get\_random\_args
-
-```python
-def get_random_args()
-```
-
-Returns the ArgumentParser instance with the arguments required for the agent to work.
-
 <a id="util.RandomEnvironment.RandomEnvironment.run_model"></a>
 
 #### run\_model
@@ -272,7 +323,7 @@ This function is used as a baseline to compare models while training.
 #### evaluate\_model
 
 ```python
-def evaluate_model(ep_length=200)
+def evaluate_model()
 ```
 
 Agent interact with the environment and the results will be logged as output. 
@@ -384,16 +435,6 @@ The class uses the returned environment to execute the agent.
 
 - `args`: ArgumentParser instance with the required arguments.
 
-<a id="util.DQNEnvironment.DQNEnvironment.get_dqn_args"></a>
-
-#### get\_dqn\_args
-
-```python
-def get_dqn_args()
-```
-
-Returns the ArgumentParser instance with the arguments required for the agent to work.
-
 <a id="util.DQNEnvironment.DQNEnvironment.train_model"></a>
 
 #### train\_model
@@ -432,6 +473,21 @@ def evaluate_model()
 Evaluate a model and log in tensorboard.
 Environment defined in method get_env.
 The model used is defined in the constructor parameter model_dir.
+
+<a id="util.DQNEnvironment.DQNEnvironment.evaluate_model_get_reward"></a>
+
+#### evaluate\_model\_get\_reward
+
+```python
+def evaluate_model_get_reward(model, args)
+```
+
+Evaluate a model. Get array of rewards of a model returns it. Rewards are represented as float.
+
+**Arguments**:
+
+- `model`: Model to evaluate.
+- `args`: ArgumentParser instance with the required arguments.
 
 <a id="util.file_utils"></a>
 
@@ -483,16 +539,6 @@ The class uses the returned environment to execute the agent.
 
 - `args`: ArgumentParser instance with the required arguments.
 
-<a id="util.PPOEnvironment.PPOEnvironment.get_ppo_args"></a>
-
-#### get\_ppo\_args
-
-```python
-def get_ppo_args()
-```
-
-Returns the ArgumentParser instance with the arguments required for the agent to work.
-
 <a id="util.PPOEnvironment.PPOEnvironment.train_model"></a>
 
 #### train\_model
@@ -531,6 +577,21 @@ def evaluate_model()
 Evaluate a model and log in tensorboard.
 Environment defined in method get_env.
 The model used is defined in the constructor parameter model_dir.
+
+<a id="util.PPOEnvironment.PPOEnvironment.evaluate_model_get_reward"></a>
+
+#### evaluate\_model\_get\_reward
+
+```python
+def evaluate_model_get_reward(model, args)
+```
+
+Evaluate a model. Get array of rewards of a model returns it. Rewards are represented as float.
+
+**Arguments**:
+
+- `model`: Model to evaluate.
+- `args`: ArgumentParser instance with the required arguments.
 
 <a id="util.RandomActionModel"></a>
 
@@ -612,62 +673,6 @@ Returns the ArgumentParser instance with the arguments required for an agent and
 **Arguments**:
 
 - `description`: Description of the ArgumentParser
-
-<a id="util.parse_args.parse_args_model"></a>
-
-#### parse\_args\_model
-
-```python
-def parse_args_model(prs)
-```
-
-Returns the ArgumentParser instance with additional arguments required for an model to train.
-
-**Arguments**:
-
-- `prs`: ArgumentParser, which requires the additional arguments
-
-<a id="util.parse_args.parse_args_evaluate"></a>
-
-#### parse\_args\_evaluate
-
-```python
-def parse_args_evaluate(prs)
-```
-
-Returns the ArgumentParser instance with additional arguments required for an model to evaluate.
-
-**Arguments**:
-
-- `prs`: ArgumentParser, which requires the additional arguments
-
-<a id="util.parse_args.parse_args_ppo"></a>
-
-#### parse\_args\_ppo
-
-```python
-def parse_args_ppo(prs)
-```
-
-Returns the ArgumentParser instance with additional arguments required for a PPO model.
-
-**Arguments**:
-
-- `prs`: ArgumentParser, which requires the additional arguments
-
-<a id="util.parse_args.parse_args_dqn"></a>
-
-#### parse\_args\_dqn
-
-```python
-def parse_args_dqn(prs)
-```
-
-Returns the ArgumentParser instance with additional arguments required for a DQN model.
-
-**Arguments**:
-
-- `prs`: ArgumentParser, which requires the additional arguments
 
 <a id="util.complex_intersection_utils"></a>
 

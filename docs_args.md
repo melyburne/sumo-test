@@ -1,13 +1,13 @@
 # General Arguments in SUMO
 
-| Argument Name | Type | Default Value | Description                     |
-| ------------- | ---- | ------------- | ------------------------------- |
-| -mingreen     | int  | 10            | Minimum green time.             |
-| -maxgreen     | int  | 30            | Maximum green time.             |
-| -gui          | bool | False         | Run with visualization on SUMO. |
-| -s            | int  | 1000          | Number of simulation seconds.   |
+| Argument Name | Type | Default Value | Description                                                           |
+| ------------- | ---- | ------------- | --------------------------------------------------------------------- |
+| -mingreen     | int  | 10            | Minimum green time.                                                   |
+| -maxgreen     | int  | 30            | Maximum green time.                                                   |
+| -gui          | bool | False         | Run with visualization on SUMO.                                       |
+| -s            | int  | 1000          | Number of simulation seconds in Sumo. That's how long a episode last. |
 
-# General Arguments for Model Training
+# General Arguments for Model Training (including Baseline Random Agent)
 
 | Argument Name | Type | Default Value | Description                             |
 | ------------- | ---- | ------------- | --------------------------------------- |

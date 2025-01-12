@@ -1,5 +1,5 @@
-from util.evaluate_model import log_tensorboard_evaluate, setup_tensorboard_log_dir, get_evaluate_args
-from util.parse_args import parse_args, parse_args_random
+from util.evaluate_model import log_tensorboard_evaluate, setup_tensorboard_log_dir
+from .parse_args import parse_args
 from util.random_agent import log_tensorboard_train
 from util.RandomActionModel import RandomActionModel
 
@@ -31,12 +31,6 @@ class RandomEnvironment(ABC):
         """
         pass
 
-    def get_random_args(self):
-        """
-            Returns the ArgumentParser instance with the arguments required for the agent to work.
-        """
-        return parse_args_random(parse_args(f"{self.description_args} Train")).parse_args()
-
     @abstractmethod
     def run_model(self, env, args, total_timesteps, seconds):
         """
@@ -54,10 +48,10 @@ class RandomEnvironment(ABC):
             Agent interact with the environment and the results will be logged as output. 
             This function is used as a baseline to compare models while training.
         """
-        args = self.get_random_args()
+        args = parse_args(f"{self.description_args} Train")
         env = self.get_env(args)
         log_dir = setup_tensorboard_log_dir(f"{self.output_file}/tensorboard", "random")
-        episode_rewards = self.run_model(env, args, args.total_timesteps, args.seconds)
+        episode_rewards = self.run_model(env, args, args.total_timesteps/5, args.seconds/5)
         log_tensorboard_train(log_dir, episode_rewards, args.seconds)
 
     def evaluate_model(self):
@@ -65,8 +59,8 @@ class RandomEnvironment(ABC):
             Agent interact with the environment and the results will be logged as output. 
             This function is used as a baseline to compare models while evaluation.
         """
-        args = get_evaluate_args(self.description_args)
+        args = parse_args(f"{self.description_args} Evaluate")
         env = self.get_env(args)
-        episode_rewards = self.run_model(env, args, args.n_eval_episodes * (args.seconds/5), (args.seconds/5))
+        episode_rewards = self.run_model(env, args, (args.n_eval_episodes * args.seconds)/5, (args.seconds/5))
         log_dir = setup_tensorboard_log_dir(f"{self.output_file}/tensorboard", "random_evaluate")
         log_tensorboard_evaluate(f"{log_dir}", episode_rewards)
