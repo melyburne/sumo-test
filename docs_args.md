@@ -5,7 +5,7 @@
 | -mingreen     | int  | 10            | Minimum green time.                                                   |
 | -maxgreen     | int  | 30            | Maximum green time.                                                   |
 | -gui          | bool | False         | Run with visualization on SUMO.                                       |
-| -s            | int  | 1000          | Number of simulation seconds in Sumo. That's how long a episode last. |
+| -s            | int  | 1000          | Number of simulation seconds in Sumo. That's how long an episode lasts. |
 
 # General Arguments for Model Training (including Baseline Random Agent)
 
