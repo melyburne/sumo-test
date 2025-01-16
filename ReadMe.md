@@ -14,6 +14,17 @@ export SUMO_HOME="usr/share/sumo”
 
 # Python Scripts to execute
 
+To start the project, following command can be used.
+
+```bash
+python [script_name].py [args]
+``` 
+
+For example:
+```bash
+python src/main.py -gui -tt 10000 -s 1000
+``` 
+
 ## Main Scripts
 
 | Python script              | What it does                                                                                                                                                                         |
