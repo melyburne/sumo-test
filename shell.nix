@@ -5,7 +5,7 @@ let
 in pkgs.mkShell {
   buildInputs = with pkgs; [
       cudatoolkit
-      python3
+      python312
       python3Packages.virtualenv
       sumo
       gcc
