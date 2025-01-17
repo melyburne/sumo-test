@@ -22,6 +22,9 @@ python [script_name].py [args]
 
 For example:
 ```bash
+python src/main.py
+``` 
+```bash
 python src/main.py -gui -tt 10000 -s 1000
 ``` 
 
