@@ -65,5 +65,5 @@ To see tensorbaord, execute cmd
 tensorboard --logdir="./outputs_example"
 ```
 
-Demo Videos from the models trained in this model are in /demo_videos 
+Generated Demo Videos from the trained models in this project are in /demo_videos.
 
