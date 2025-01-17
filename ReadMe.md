@@ -47,7 +47,7 @@ The scripts execute following model/agent in the following environment:
 | Two-lane Single-lane Intersection | src/SimpleIntersectionDQNEnvironment.py | src/SimpleIntersectionPPOEnvironment.py | src/SimpleIntersectionRandomEnvironment.py |
 | Single-lane 4x4 Grid              | src/GridDQNEnvironment.py               | src/GridPPOEnvironment.py               | src/GridRandomEnvironment.py               |
 
-The main method of each script trains, saves, and evaluates the model for its respective environment. Each script includes the methods save_model()—which trains and saves the model located in the path defined by the variable `model_dir` — and `evaluate_model()` — which evaluates the model located in the path defined by the variable `model_dir`. The variable `model_dir` is a parameter in the constructor of each class. The exceptions are classes whose names include "random." These classes do not have a `save_model()` method; instead, they have a `train_model()` method.
+The main method of each script trains, saves, and evaluates the model for its respective environment. Each script includes the methods `save_model()` — which trains and saves the model located in the path defined by the variable `model_dir` — and `evaluate_model()` — which evaluates the model located in the path defined by the variable `model_dir`. The variable `model_dir` is a parameter in the constructor of each class. The exceptions are classes whose names include "random". These classes do not have a `save_model()` method; instead, they have a `train_model()` method.
 
 ## Miscellaneous
 
